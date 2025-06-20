@@ -1,0 +1,5 @@
+[gd_resource type="SystemFont" format=3 uid="uid://dok2yjhamsr3l"]
+
+[resource]
+font_names = PackedStringArray("Berlin Sans FB")
+oversampling = 5.2
