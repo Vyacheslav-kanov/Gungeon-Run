@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjqwfai848hwp"]
+
+[ext_resource type="Script" uid="uid://d4gq5tsq7cevl" path="res://Scripts/Game.gd" id="1_r34rm"]
+[ext_resource type="TileSet" uid="uid://bfxwrrsxlmdag" path="res://TileMap/main.tres" id="1_sblpm"]
+[ext_resource type="Script" uid="uid://ykrcs1hwkjk3" path="res://Scripts/LvlGeneration/LevelGenerator.gd" id="2_r34rm"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_r34rm")
+
+[node name="Ysort" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("2_r34rm")
+
+[node name="FloorLayer" type="TileMapLayer" parent="Ysort"]
+z_index = -1
+y_sort_enabled = true
+position = Vector2(-5, 2)
+tile_set = ExtResource("1_sblpm")
+collision_enabled = false
+
+[node name="WallLayer" type="TileMapLayer" parent="Ysort"]
+y_sort_enabled = true
+position = Vector2(-5, 2)
+tile_set = ExtResource("1_sblpm")
+
+[node name="DoorLayer" type="TileMapLayer" parent="Ysort"]
+y_sort_enabled = true
+position = Vector2(-5, 2)
+tile_set = ExtResource("1_sblpm")
+
+[node name="ObjectLayer" type="TileMapLayer" parent="Ysort"]
+
+[node name="Dungeon" type="TileMap" parent="."]
+visible = false
+position = Vector2(-5, 2)
+tile_set = ExtResource("1_sblpm")
+rendering_quadrant_size = 128
+format = 2
+layer_0/name = "Floor"
+layer_0/modulate = Color(0.454524, 0.454524, 0.454524, 1)
+layer_0/y_sort_enabled = true
+layer_1/name = "Walls"
+layer_1/y_sort_enabled = true
+layer_1/y_sort_origin = 1
+layer_1/z_index = 1
+layer_1/navigation_enabled = false
+layer_2/name = "Door"
+layer_2/y_sort_enabled = true
+layer_2/y_sort_origin = 2
+layer_2/z_index = 2
+
+[node name="Node" type="Node2D" parent="."]

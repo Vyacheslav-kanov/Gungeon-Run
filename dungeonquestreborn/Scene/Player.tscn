@@ -1,0 +1,164 @@
+[gd_scene load_steps=16 format=3 uid="uid://vhbi3ocd8prk"]
+
+[ext_resource type="Script" uid="uid://cjbb6a0tika0s" path="res://Scripts/Player/Player.gd" id="1_3eeal"]
+[ext_resource type="SpriteFrames" uid="uid://kvw7yo1a6pos" path="res://Sprite/Player/Anim/player_animation.tres" id="3_jvxg0"]
+[ext_resource type="Script" uid="uid://bo2m4ywlvrhie" path="res://Scripts/UI/player_ui.gd" id="4_fvocf"]
+[ext_resource type="Script" uid="uid://c17sieomkri1b" path="res://Scripts/Player/SortingNode.gd" id="4_mud5u"]
+[ext_resource type="Texture2D" uid="uid://bna325p76sdth" path="res://Sprite/UI/gold_icon.png" id="5_fvocf"]
+[ext_resource type="LabelSettings" uid="uid://in2f2l8oleea" path="res://UI/LabelSettings.tres" id="5_pmp2f"]
+[ext_resource type="LabelSettings" uid="uid://dq275udf75b2j" path="res://UI/FloorLevel_font.tres" id="7_3pik8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pmp2f"]
+radius = 19.0
+height = 54.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jvxg0"]
+size = Vector2(95, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pmp2f"]
+size = Vector2(237, 91)
+
+[sub_resource type="Gradient" id="Gradient_mud5u"]
+offsets = PackedFloat32Array(0, 0.00502513, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.588235, 0, 0, 0, 0.588235)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fvocf"]
+gradient = SubResource("Gradient_mud5u")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_pmp2f"]
+diffuse_texture = SubResource("GradientTexture1D_fvocf")
+
+[sub_resource type="Gradient" id="Gradient_3pik8"]
+offsets = PackedFloat32Array(0.00239234, 0.385167, 1)
+colors = PackedColorArray(0.220046, 0.0266741, 0, 1, 0.312449, 0.0522069, 0, 1, 0.711803, 0, 0.184948, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_adgam"]
+gradient = SubResource("Gradient_3pik8")
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_mask = 2
+script = ExtResource("1_3eeal")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+sprite_frames = ExtResource("3_jvxg0")
+animation = &"idle"
+offset = Vector2(0, -270)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="SortingNode" type="Node2D" parent="."]
+visible = false
+script = ExtResource("4_mud5u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -19)
+shape = SubResource("CapsuleShape2D_pmp2f")
+one_way_collision_margin = 0.0
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_mask = 19
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("RectangleShape2D_jvxg0")
+debug_color = Color(1.10701e-06, 0.64441, 0.281459, 0.42)
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(0, -26)
+shape = SubResource("RectangleShape2D_pmp2f")
+debug_color = Color(0.997834, 0, 0.156924, 0.42)
+
+[node name="PlayerUI" type="CanvasLayer" parent="."]
+script = ExtResource("4_fvocf")
+
+[node name="HUD" type="Control" parent="PlayerUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 40.0
+offset_bottom = 140.0
+grow_horizontal = 2
+
+[node name="space" type="ReferenceRect" parent="PlayerUI/HUD/HBoxContainer"]
+custom_minimum_size = Vector2(100, 100.155)
+layout_mode = 2
+
+[node name="HealthBar" type="TextureProgressBar" parent="PlayerUI/HUD/HBoxContainer"]
+custom_minimum_size = Vector2(500, 29.73)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("CanvasTexture_pmp2f")
+texture_progress = SubResource("GradientTexture1D_adgam")
+
+[node name="health_point" type="Label" parent="PlayerUI/HUD/HBoxContainer/HealthBar"]
+offset_left = 59.0
+offset_top = 30.0
+offset_right = 125.0
+offset_bottom = 66.0
+text = "10000"
+label_settings = ExtResource("5_pmp2f")
+
+[node name="hp lable" type="Label" parent="PlayerUI/HUD/HBoxContainer/HealthBar"]
+offset_top = 29.0
+offset_right = 66.0
+offset_bottom = 65.0
+text = "hp"
+label_settings = ExtResource("5_pmp2f")
+
+[node name="space2" type="ReferenceRect" parent="PlayerUI/HUD/HBoxContainer"]
+custom_minimum_size = Vector2(100, 100.155)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PlayerUI/HUD/HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_fvocf")
+expand_mode = 1
+
+[node name="space3" type="ReferenceRect" parent="PlayerUI/HUD/HBoxContainer"]
+custom_minimum_size = Vector2(14.96, 100.155)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="GoldLabel" type="Label" parent="PlayerUI/HUD/HBoxContainer"]
+layout_mode = 2
+text = "10000"
+label_settings = ExtResource("5_pmp2f")
+
+[node name="space4" type="ReferenceRect" parent="PlayerUI/HUD/HBoxContainer"]
+custom_minimum_size = Vector2(800, 100.155)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="title level" type="Label" parent="PlayerUI/HUD/HBoxContainer"]
+layout_mode = 2
+text = "этаж №"
+label_settings = ExtResource("7_3pik8")
+
+[node name="level number" type="Label" parent="PlayerUI/HUD/HBoxContainer"]
+layout_mode = 2
+text = "10"
+label_settings = ExtResource("7_3pik8")
+
+[connection signal="area_entered" from="InteractionArea" to="." method="_on_door_entered"]
+[connection signal="area_exited" from="InteractionArea" to="." method="_on_door_exited"]
